@@ -89,6 +89,22 @@ CREATE TABLE IF NOT EXISTS `organizadores` (
 
 -- Exportação de dados foi desmarcado.
 
+-- Copiando estrutura para tabela eventos_online.seguidores
+DROP TABLE IF EXISTS `seguidores`;
+CREATE TABLE IF NOT EXISTS `seguidores` (
+  `id_seguidor` int NOT NULL AUTO_INCREMENT,
+  `id_organizador` int NOT NULL,
+  `id_usuario` int NOT NULL,
+  PRIMARY KEY (`id_seguidor`),
+  UNIQUE KEY `id_seguidor` (`id_seguidor`),
+  KEY `id_organizador` (`id_organizador`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `seguidores_ibfk_1` FOREIGN KEY (`id_organizador`) REFERENCES `organizadores` (`id_organizador`) ON DELETE CASCADE,
+  CONSTRAINT `seguidores_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Exportação de dados foi desmarcado.
+
 -- Copiando estrutura para tabela eventos_online.usuario
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (

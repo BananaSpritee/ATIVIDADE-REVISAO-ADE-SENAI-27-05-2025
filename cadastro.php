@@ -1,21 +1,46 @@
 <?php
 
-require_once("./functions/cadastroDB.php");
+require_once('./database/db.php');
 
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$erro = "";
+$sucesso = "";
 
-//     if (isset($_POST["acao"])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nome = $_POST['name'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $senha = $_POST['password'] ?? '';
+    $senha2 = $_POST['password2'] ?? '';
 
-//         switch ($_POST["acao"]) {
+    if ($senha !== $senha2) {
+        $erro = "As senhas não coincidem.";
+    } else {
+        // Verifica se email já existe
+        $sql = "SELECT COUNT(*) FROM usuario WHERE email = :email";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
 
-//             case "cadastro":
-//                 require "./functions/cadastroDB.php";
-//                 break;
-
-//         }
-//     }
-// }
-
+        if ($count > 0) {
+            $erro = "Este email já está cadastrado.";
+        } else {
+            // Insere no banco
+            $sql = "INSERT INTO usuario (nome_usuario, email, senha) VALUES (:nome, :email, :senha)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':nome', $nome);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':senha', $senha); // Lembre-se de usar hash no futuro
+            if ($stmt->execute()) {
+                $sucesso = "Cadastro realizado com sucesso!";
+                // Opcional: redirecionar para login, ex:
+                // header("Location: index.php");
+                // exit;
+            } else {
+                $erro = "Erro ao cadastrar.";
+            }
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -27,48 +52,49 @@ require_once("./functions/cadastroDB.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos Online - Cadastro</title>
-    <script>
-        function validarFormulario(event) {
-            const senha = document.getElementById("password").value;
-            const confirmarSenha = document.getElementById("passsword2").value;
-
-            if (senha !== confirmarSenha) {
-                alert("As senhas não coincidem!");
-                event.preventDefault(); // Impede o envio do formulário
-            } else {
-                alert("Cadastro criado com sucesso!")
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
 
 </head>
 
 <body>
 
-    <header>
+<?php if ($erro): ?>
 
+    <p style="color:red;"><?= htmlspecialchars($erro) ?></p>
+
+<?php endif; ?>
+
+<?php if ($sucesso): ?>
+
+    <p style="color:green;"><?= htmlspecialchars($sucesso) ?></p>
+
+<?php endif; ?>
+
+    <header>
+        
     </header>
 
         <main>
-
-            <form action="./index.php" method="post" onsubmit="validarFormulario(event)">
-
-                <input type="hidden" name="acao" value="cadastro">
-
-                <label for="name">Digite seu nome:</label>
-                <input type="text" id="name" name="name" placeholder="">
-                
-                <label for="password">Digite seu e-mail:</label>
-                <input type="email" id="email" name="email" placeholder="">
-
-                <label for="password">Digite a sua senha:</label>
-                <input type="password" id="password" name="password" placeholder="">
-
-                <label for="password2">Repita a senha:</label>
-                <input type="password" id="password2" name="password2" placeholder="">
-
+            
+            <form method="post" action="./functions/cadastroDB.php">
+            
+                <label for="name">Nome:</label><br>
+                <input type="text" name="name" id="name" required value="<?= htmlspecialchars($_POST['name'] ?? '') ?>"><br>
+            
+                <label for="email">E-mail:</label><br>
+                <input type="email" name="email" id="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"><br>
+            
+                <label for="password">Senha:</label><br>
+                <input type="password" name="password" id="password" required><br>
+            
+                <label for="password2">Repita a senha:</label><br>
+                <input type="password" name="password2" id="password2" required><br>
+            
                 <button type="submit">Cadastrar-se</button>
-
+            
             </form>
 
         </main>
@@ -78,4 +104,5 @@ require_once("./functions/cadastroDB.php");
     </footer>
 
 </body>
+
 </html>

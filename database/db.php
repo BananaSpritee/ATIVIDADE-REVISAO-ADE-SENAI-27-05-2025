@@ -15,7 +15,7 @@ $conn->query("CREATE TABLE IF NOT EXISTS usuario (
             id_usuario INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
             nome_usuario VARCHAR(100) NOT NULL,
             email VARCHAR(100) UNIQUE NOT NULL,
-            senha VARCHAR(100) NOT NULL
+            senha VARCHAR(255) NOT NULL
             );
             ");
 
@@ -63,6 +63,14 @@ $conn->query("CREATE TABLE IF NOT EXISTS comentarios (
             );
             ");
 
+$conn->query("CREATE TABLE IF NOT EXISTS seguidores (
+            id_seguidor INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
+            id_organizador INT NOT NULL,
+            id_usuario INT NOT NULL,
+            FOREIGN KEY (id_organizador) REFERENCES organizadores(id_organizador) ON DELETE CASCADE,
+            FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE
+            );
+            ");
 
 // CRIPTOGRAFIA DOS DADOS
 

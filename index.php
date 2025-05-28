@@ -13,25 +13,30 @@ require("./database/db.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos Online - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
 
 </head>
 
-<body>
+<body class="pagina-login">
 
     <header>
 
     </header>
 
         <main>
-            <box class="formulario-login">
 
-                <form action="" method="post">
+            <div class="formulario-login">
 
-                    <label for="email">E-mail:</label>
-                    <input name="email_login" id="email" type="email" placeholder="">
+                <form action="./functions/loginDB.php" method="post">
 
-                    <label for="password">Senha:</label>
-                    <input name="password_login" id="password" type="password" placeholder="">
+                    <label for="email">E-mail:</label><br>
+                    <input name="email_login" id="email" type="email" placeholder=""><br>
+
+                    <label for="password">Senha:</label><br>
+                    <input name="password_login" id="password" type="password" placeholder=""><br>
 
                     <button type="submit">Login</button>
 
@@ -44,12 +49,14 @@ require("./database/db.php");
 
                 </form>
 
-            </box>
+            </div>
 
         </main>
 
     <footer>
 
     </footer>
+
 </body>
+
 </html>
