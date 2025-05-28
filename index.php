@@ -32,6 +32,8 @@ require("./database/db.php");
 
                 <form action="./functions/loginDB.php" method="post">
 
+                <h2 style="text-align:center; margin-bottom:1rem;">Entrar</h2>
+
                     <label for="email">E-mail:</label><br>
                     <input name="email_login" id="email" type="email" placeholder=""><br>
 
