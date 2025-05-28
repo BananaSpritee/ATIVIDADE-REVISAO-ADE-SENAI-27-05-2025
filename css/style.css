@@ -1,19 +1,17 @@
-/* CSS HOME */
+/* CSS GLOBAL */
 
 /* FONTES E RESET */
-
 body {
     height: 100%;
-    background-color: #f0f0f0; /* cor base para todo site */
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
 }
 
 /* NAVBAR */
-
 .nav-bar {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* sombra suave */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
     padding: 2rem;
 }
@@ -22,7 +20,7 @@ body {
     font-size: 1.2rem;
     list-style: none;
     display: flex;
-    gap: 20px; 
+    gap: 20px;
     margin: 0;
     padding: 0;
 }
@@ -38,8 +36,6 @@ header a {
     text-decoration: none;
 }
 
-/* LINKS */
-
 .nav-bar a {
     color: #000;
     text-decoration: none;
@@ -47,8 +43,6 @@ header a {
     transition: all 0.3s ease;
     position: relative;
 }
-
-/* HOVER COM ANIMAÇÃO SUAVE */
 
 .nav-bar a::after {
     content: '';
@@ -66,25 +60,107 @@ header a {
 }
 
 .nav-bar a:hover {
-    color: #007bff; /* tom de azul ao passar o mouse */
+    color: #007bff;
 }
 
-/* CSS LOGIN */
+/* CADASTRO */
 
-body.pagina-login, html.pagina-login {
-    height: 100%;
+/* Estilo para formulário em duas colunas */
+.formulario-duas-colunas {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.coluna-formulario {
+    flex: 1;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+
+/* LOGIN */
+.login-container {
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 1rem;
 }
 
+/* FORMULÁRIO DE LOGIN */
 .formulario-login {
-    display: flex;
-    flex-direction: column; /* pra empilhar inputs */
-    gap: 1rem;
-    padding: 3rem;
     background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px; /* cantos arredondados */
-    width: 320px; /* largura fixa para o formulário */
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    animation: fadeIn 0.5s ease-in-out;
+    box-sizing: border-box;
+}
+
+/* Animação suave */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.link-cadastro {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+.link-cadastro a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.link-cadastro a:hover {
+    color: #0056b3;
 }

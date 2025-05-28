@@ -32,9 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bindParam(':senha', $senha); // Lembre-se de usar hash no futuro
             if ($stmt->execute()) {
                 $sucesso = "Cadastro realizado com sucesso!";
-                // Opcional: redirecionar para login, ex:
-                // header("Location: index.php");
-                // exit;
             } else {
                 $erro = "Erro ao cadastrar.";
             }
@@ -44,11 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos Online - Cadastro</title>
@@ -56,52 +51,69 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
-
 </head>
 
-<body>
+<body class="login-container">
 
-<?php if ($erro): ?>
+    <main>
 
-    <p style="color:red;"><?= htmlspecialchars($erro) ?></p>
+        <form class="formulario-login" method="post" action="">
 
-<?php endif; ?>
+            <h2 style="text-align:center; margin-bottom:1rem;">Criar Conta</h2>
 
-<?php if ($sucesso): ?>
+            <?php if ($erro): ?>
 
-    <p style="color:green;"><?= htmlspecialchars($sucesso) ?></p>
+                <p style="color:red;"><?= htmlspecialchars($erro) ?></p>
 
-<?php endif; ?>
+            <?php endif; ?>
 
-    <header>
-        
-    </header>
+            <?php if ($sucesso): ?>
 
-        <main>
-            
-            <form method="post" action="./functions/cadastroDB.php">
-            
-                <label for="name">Nome:</label><br>
-                <input type="text" name="name" id="name" required value="<?= htmlspecialchars($_POST['name'] ?? '') ?>"><br>
-            
-                <label for="email">E-mail:</label><br>
-                <input type="email" name="email" id="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"><br>
-            
-                <label for="password">Senha:</label><br>
-                <input type="password" name="password" id="password" required><br>
-            
-                <label for="password2">Repita a senha:</label><br>
-                <input type="password" name="password2" id="password2" required><br>
-            
-                <button type="submit">Cadastrar-se</button>
-            
-            </form>
+                <p style="color:green;"><?= htmlspecialchars($sucesso) ?></p>
 
-        </main>
+                <div class="link-cadastro">
 
-    <footer>
+                    <a href="./index.php">Fazer Login</a>
 
-    </footer>
+                </div>
+
+            <?php endif; ?>
+
+            <div class="formulario-duas-colunas">
+
+                <div class="coluna-formulario">
+
+                    <label for="name">Nome:</label>
+                    <input type="text" name="name" id="name" required value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
+
+                    <label for="email">E-mail:</label>
+                    <input type="email" name="email" id="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+
+                </div>
+
+                <div class="coluna-formulario">
+
+                    <label for="password">Senha:</label>
+                    <input type="password" name="password" id="password" required>
+
+                    <label for="password2">Repita a senha:</label>
+                    <input type="password" name="password2" id="password2" required>
+
+                </div>
+
+            </div>
+
+            <button type="submit">Cadastrar-se</button>
+
+            <div class="link-cadastro">
+                
+                <a href="./index.php">Já tenho uma conta</a>
+
+            </div>
+
+        </form>
+
+    </main>
 
 </body>
 

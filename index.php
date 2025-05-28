@@ -26,7 +26,7 @@ require("./database/db.php");
 
     </header>
 
-        <main>
+        <main class="login-container">
 
             <div class="formulario-login">
 
@@ -40,7 +40,7 @@ require("./database/db.php");
 
                     <button type="submit">Login</button>
 
-                    <div style="margin-top: 10px;">
+                    <div class="link-cadastro">
 
                         <!-- <a href="/esqueci-senha">Esqueci a senha</a> |  -->
                         <a href="./cadastro.php">Não tenho login, cadastrar-se</a>
