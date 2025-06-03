@@ -65,13 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <p style="color:red;"><?= htmlspecialchars($erro) ?></p>
             <?php endif; ?>
 
-            <?php if ($sucesso): ?>
-                <p style="color:green;"><?= htmlspecialchars($sucesso) ?></p>
-                <div class="link-cadastro">
-                    <a href="./index.php">Fazer Login</a>
-                </div>
-            <?php endif; ?>
-
             <!-- 🔹 DUAS COLUNAS -->
             <div class="formulario-duas-colunas">
                 <!-- Coluna 1 -->
@@ -94,6 +87,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <button type="submit">Cadastrar-se</button>
+
+                        <?php if ($sucesso): ?>
+                <p style="color:green;"><?= htmlspecialchars($sucesso) ?></p>
+                <div class="link-cadastro">
+                    <a href="./index.php">Fazer Login</a>
+                </div>
+            <?php endif; ?>
 
             <div class="link-cadastro">
                 <a href="./index.php">Já tenho uma conta</a>
