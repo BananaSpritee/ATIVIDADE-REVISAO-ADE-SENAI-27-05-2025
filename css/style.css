@@ -178,3 +178,9 @@ button:hover {
 .link-cadastro a:hover {
     color: #0056b3;
 }
+
+/* HOME */
+
+.tela-inicial {
+    text-align: center;
+}
