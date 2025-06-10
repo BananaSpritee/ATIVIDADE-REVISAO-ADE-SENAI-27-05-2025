@@ -16,10 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email_login'], $_POST[
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($usuario) {
+
         // Verifica se a senha bate com o hash armazenado
         if (password_verify($senha, $usuario['senha'])) {
+
             // Sucesso no login, inicia sessão
             session_start();
+
             $_SESSION['id_usuario'] = $usuario['id_usuario'];
             $_SESSION['nome_usuario'] = $usuario['nome_usuario'];
             $_SESSION['email'] = $usuario['email'];
@@ -27,13 +30,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email_login'], $_POST[
             // Redireciona para página principal (dashboard ou home)
             header("Location: /ATIVIDADE-REVISAO-ADE-SENAI-27-05-2025/home.php");
             exit;
+
         } else {
+
             // Senha incorreta
             echo "Senha incorreta!";
+
         }
+
     } else {
+
         // Usuário não encontrado
         echo "Usuário não encontrado!";
+
     }
 }
 ?>
