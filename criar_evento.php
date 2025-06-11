@@ -1,196 +1,148 @@
 <?php
 session_start();
+require_once('./database/db.php');
+
+// Verifica se o usuário está logado
 if (!isset($_SESSION['id_usuario'])) {
     header('Location: index.php');
     exit;
 }
 
-require_once('./database/db.php');
-
 $erro = "";
 $sucesso = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // (mesma lógica do POST)
-    $nome_evento = $_POST['nome_evento'] ?? '';
-    $local_evento = $_POST['local_evento'] ?? '';
-    $endereco_evento = $_POST['endereco_evento'] ?? '';
-    $comeco_evento = $_POST['comeco_evento'] ?? '';
-    $fim_evento = $_POST['fim_evento'] ?? null;
-    $preco = $_POST['preco'] ?? 0;
+// Obtém o ID do organizador do usuário logado
+$sqlOrganizador = "SELECT id_organizador FROM organizadores WHERE id_usuario = :id_usuario";
+$stmt = $conn->prepare($sqlOrganizador);
+$stmt->bindParam(':id_usuario', $_SESSION['id_usuario']);
+$stmt->execute();
+$organizador = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $id_usuario = $_SESSION['id_usuario'];
+if (!$organizador) {
+    $erro = "Você precisa se cadastrar como organizador antes de criar eventos.";
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = $_POST['nome_evento'] ?? '';
+    $local = $_POST['local_evento'] ?? '';
+    $endereco = $_POST['endereco_evento'] ?? '';
+    $inicio = $_POST['comeco_evento'] ?? '';
+    $fim = $_POST['fim_evento'] ?? null;
+    $preco = $_POST['preco'] ?? 0.00;
+    $id_organizador = $organizador['id_organizador'];
 
-    $sql = "SELECT id_organizador FROM organizadores WHERE id_usuario = :id_usuario LIMIT 1";
+    $imagem_nome = null;
+
+    // Upload de imagem
+    if (isset($_FILES['imagem_evento']) && $_FILES['imagem_evento']['error'] === UPLOAD_ERR_OK) {
+        $ext = pathinfo($_FILES['imagem_evento']['name'], PATHINFO_EXTENSION);
+        $imagem_nome = uniqid('evento_', true) . '.' . $ext;
+        $destino = __DIR__ . '/uploads/' . $imagem_nome;
+        move_uploaded_file($_FILES['imagem_evento']['tmp_name'], $destino);
+    }
+
+    // Inserção no banco
+    $sql = "INSERT INTO eventos (nome_evento, local_evento, endereco_evento, comeco_evento, fim_evento, preco, id_organizador, imagem_evento)
+            VALUES (:nome, :local, :endereco, :comeco, :fim, :preco, :id_organizador, :imagem)";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':id_usuario', $id_usuario);
-    $stmt->execute();
-    $organizador = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->bindParam(':nome', $nome);
+    $stmt->bindParam(':local', $local);
+    $stmt->bindParam(':endereco', $endereco);
+    $stmt->bindParam(':comeco', $inicio);
+    $stmt->bindParam(':fim', $fim);
+    $stmt->bindParam(':preco', $preco);
+    $stmt->bindParam(':id_organizador', $id_organizador);
+    $stmt->bindParam(':imagem', $imagem_nome);
 
-    if (!$organizador) {
-        $erro = "Você precisa ser um organizador para criar eventos.";
+    if ($stmt->execute()) {
+        $sucesso = "Evento criado com sucesso!";
     } else {
-        $sql = "INSERT INTO eventos 
-                (nome_evento, local_evento, endereco_evento, comeco_evento, fim_evento, preco, id_organizador)
-                VALUES (:nome_evento, :local_evento, :endereco_evento, :comeco_evento, :fim_evento, :preco, :id_organizador)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':nome_evento', $nome_evento);
-        $stmt->bindParam(':local_evento', $local_evento);
-        $stmt->bindParam(':endereco_evento', $endereco_evento);
-        $stmt->bindParam(':comeco_evento', $comeco_evento);
-        $stmt->bindParam(':fim_evento', $fim_evento);
-        $stmt->bindParam(':preco', $preco);
-        $stmt->bindParam(':id_organizador', $organizador['id_organizador']);
-
-        if ($stmt->execute()) {
-            $sucesso = "Evento criado com sucesso!";
-        } else {
-            $erro = "Erro ao criar evento.";
-        }
+        $erro = "Erro ao criar evento.";
     }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Eventos Online - Criar Evento</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
 
-    <style>
-        /* Container centralizado com largura máxima e padding */
-        .container {
-            max-width: 600px;
-            margin: 40px auto; /* centraliza e dá margem superior/baixo */
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        form label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-            color: #555;
-        }
-
-        form input[type="text"],
-        form input[type="datetime-local"],
-        form input[type="number"] {
-            width: 100%;
-            padding: 8px;
-            margin-top: 6px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-
-        form button {
-            margin-top: 25px;
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        form button:hover {
-            background-color: #0056b3;
-        }
-
-        .message {
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .error {
-            color: #d9534f;
-        }
-
-        .success {
-            color: #28a745;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon" />
 
 </head>
 
-<body>
+<body class="pagina-criar-evento">
 
-<header>
+    <header>
 
-    <nav class="nav-bar">
+        <nav class="nav-bar">
 
-        <ul class="itens-nav-bar">
+            <ul class="itens-nav-bar">
 
-            <li><a href="home.php">🏠 Início</a></li>
-            <li><a href="eventos.php">🎉 Eventos</a></li>
-            <li><a href="criar_evento.php">🛠️ Criar Evento</a></li>
-            <li><a href="meus_eventos.php">📅 Meus Eventos</a></li>
+                <li><a href="home.php">🏠 Início</a></li>
+                <li><a href="eventos.php">🎉 Eventos</a></li>
+                <li><a href="criar_evento.php">🛠️ Criar Evento</a></li>
+                <li><a href="meus_eventos.php">📅 Meus Eventos</a></li>
 
-            <div class="grupo-direita">
+                <div class="grupo-direita">
 
-                <li><a href="perfil.php">👤 Perfil</a></li>
-                <li><a href="logout.php">🚪 Sair</a></li>
+                    <li><a href="perfil.php">👤 Perfil</a></li>
+                    <li><a href="logout.php">🚪 Sair</a></li>
 
-            </div>
+                </div>
 
-        </ul>
+            </ul>
 
-    </nav>
+        </nav>
 
-</header>
+    </header>
 
-<div class="container">
-    <h1>Criar Evento</h1>
+    <main class="form-container">
 
-    <?php if ($erro): ?>
-        <p class="message error"><?=htmlspecialchars($erro)?></p>
-    <?php elseif ($sucesso): ?>
-        <p class="message success"><?=htmlspecialchars($sucesso)?></p>
-    <?php endif; ?>
+        <form method="POST" action="criar_evento.php" enctype="multipart/form-data" class="formulario-criar-evento">
 
-    <form method="post">
-        <label for="nome_evento">Nome do Evento:</label>
-        <input type="text" id="nome_evento" name="nome_evento" required>
+            <h2>Criar Novo Evento</h2>
 
-        <label for="local_evento">Local:</label>
-        <input type="text" id="local_evento" name="local_evento" required>
+            <?php if ($erro): ?>
+                <p style="color: red;"><?= htmlspecialchars($erro) ?></p>
+            <?php endif; ?>
 
-        <label for="endereco_evento">Endereço:</label>
-        <input type="text" id="endereco_evento" name="endereco_evento" required>
+            <?php if ($sucesso): ?>
+                <p style="color: green;"><?= htmlspecialchars($sucesso) ?></p>
+            <?php endif; ?>
 
-        <label for="comeco_evento">Data e Hora Início:</label>
-        <input type="datetime-local" id="comeco_evento" name="comeco_evento" required>
+            <label for="nome_evento">Nome do Evento:</label>
+            <input type="text" id="nome_evento" name="nome_evento" required value="<?= htmlspecialchars($_POST['nome_evento'] ?? '') ?>" />
 
-        <label for="fim_evento">Data e Hora Fim:</label>
-        <input type="datetime-local" id="fim_evento" name="fim_evento">
+            <label for="local_evento">Local do Evento:</label>
+            <input type="text" id="local_evento" name="local_evento" required value="<?= htmlspecialchars($_POST['local_evento'] ?? '') ?>" />
 
-        <label for="preco">Preço (R$):</label>
-        <input type="number" id="preco" name="preco" min="0" step="0.01" value="0.00">
+            <label for="endereco_evento">Endereço do Evento:</label>
+            <input type="text" id="endereco_evento" name="endereco_evento" required value="<?= htmlspecialchars($_POST['endereco_evento'] ?? '') ?>" />
 
-        <button type="submit">Criar Evento</button>
-    </form>
-</div>
+            <label for="comeco_evento">Data e Hora de Início:</label>
+            <input type="datetime-local" id="comeco_evento" name="comeco_evento" required value="<?= htmlspecialchars($_POST['comeco_evento'] ?? '') ?>" />
+
+            <label for="fim_evento">Data e Hora de Término:</label>
+            <input type="datetime-local" id="fim_evento" name="fim_evento" value="<?= htmlspecialchars($_POST['fim_evento'] ?? '') ?>" />
+
+            <label for="preco">Preço:</label>
+            <input type="number" id="preco" name="preco" step="0.01" value="<?= htmlspecialchars($_POST['preco'] ?? '0.00') ?>" />
+
+            <label for="imagem_evento">Imagem do Evento:</label>
+            <input type="file" id="imagem_evento" name="imagem_evento" accept="image/*" required />
+
+            <button type="submit" class="btn-enviar">Criar Evento</button>
+
+        </form>
+
+    </main>
 
 </body>
+
 </html>

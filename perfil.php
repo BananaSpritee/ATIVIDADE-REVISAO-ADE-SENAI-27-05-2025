@@ -126,66 +126,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tornar_organizador'])
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos Online - Perfil</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
-
-    <style>
-
-        .container-perfil {
-            max-width: 700px;
-            margin: 50px auto;
-            padding: 2rem;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        }
-
-        .container-perfil h2 {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        form {
-            margin-bottom: 2rem;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 0.8rem;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            padding: 0.7rem 1.5rem;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .mensagem {
-            text-align: center;
-            color: green;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-title {
-            font-weight: bold;
-            margin-top: 1.5rem;
-        }
-
-    </style>
 
 </head>
 
@@ -211,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tornar_organizador'])
 
         </ul>
 
-        </nav>
+    </nav>
 
 </header>
 

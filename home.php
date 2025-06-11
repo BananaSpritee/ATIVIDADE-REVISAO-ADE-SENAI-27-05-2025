@@ -29,6 +29,7 @@ $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos Online - Home</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
     <link rel="stylesheet" href="./css/style.css">
@@ -36,8 +37,10 @@ $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </head>
 
-<body>
+<body class="pagina-home">
+
     <header>
+
         <nav class="nav-bar">
 
         <ul class="itens-nav-bar">
@@ -74,23 +77,33 @@ $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <?php else: ?>
                     
-                    <ul>
-                        
+                    <div class="eventos-grid">
+
                         <?php foreach ($eventos as $evento): ?>
-                            
-                            <li>
-                                
-                                <strong><?=htmlspecialchars($evento['nome_evento'])?></strong><br/>
-                                Organizador: <?=htmlspecialchars($evento['nome_organizador'])?><br/>
-                                Data: <?=date('d/m/Y H:i', strtotime($evento['comeco_evento']))?><br/>
-                                Local: <?=htmlspecialchars($evento['local_evento'])?>
-                                <br/><a href="evento_detalhes.php?id=<?= $evento['id_evento'] ?>">Ver detalhes</a>
-                                
-                            </li>
-                            
+
+                            <div class="card-evento">
+
+                                <?php if (!empty($evento['imagem_evento'])): ?>
+
+                                    <img src="uploads/<?= htmlspecialchars($evento['imagem_evento']) ?>" alt="Imagem do evento">
+
+                                <?php endif; ?>
+
+                                <h3><?= htmlspecialchars($evento['nome_evento']) ?></h3>
+
+                                <p><strong>Organizador:</strong> <?= htmlspecialchars($evento['nome_organizador']) ?></p>
+
+                                <p><strong>Data:</strong> <?= date('d/m/Y H:i', strtotime($evento['comeco_evento'])) ?></p>
+
+                                <p><strong>Local:</strong> <?= htmlspecialchars($evento['local_evento']) ?></p>
+
+                                <a href="/ATIVIDADE-REVISAO-ADE-SENAI-27-05-2025/eventos_detalhes.php?id=<?= $evento['id_evento'] ?>">Ver detalhes</a>
+
+                            </div>
+
                         <?php endforeach; ?>
-                            
-                    </ul>
+
+                    </div>
 
                 <?php endif; ?>
                         

@@ -32,6 +32,7 @@ $conn->query("CREATE TABLE IF NOT EXISTS organizadores (
 $conn->query("CREATE TABLE IF NOT EXISTS eventos (
             id_evento INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
             nome_evento VARCHAR(100) NOT NULL,
+            imagem_evento VARCHAR(255) DEFAULT NULL,
             local_evento VARCHAR(100) NOT NULL,
             endereco_evento VARCHAR(100) NOT NULL,
             comeco_evento DATETIME NOT NULL,
@@ -46,7 +47,9 @@ $conn->query("CREATE TABLE IF NOT EXISTS eventos (
 $conn->query("CREATE TABLE IF NOT EXISTS curtidas (
             id_curtida INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
             id_usuario INT NOT NULL,
+            id_evento INT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (id_evento) REFERENCES eventos(id_evento) ON DELETE CASCADE,
             FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE
             );
             ");
@@ -71,22 +74,5 @@ $conn->query("CREATE TABLE IF NOT EXISTS seguidores (
             FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE
             );
             ");
-
-// CRIPTOGRAFIA DOS DADOS
-
-// $count = $conn->query("SELECT COUNT(*) FROM categoria")->fetchColumn();
-
-// if ($count == 0) {
-//     $stmt = $conn->prepare("INSERT INTO categoria (nome) VALUES (:nome)");
-
-//     $categorias = [
-        
-//     ];
-
-//     foreach ($categorias as $categoria) {
-//         $stmt->bindParam(':nome', $categoria);
-//         $stmt->execute();
-//     }
-// }
 
 ?>
