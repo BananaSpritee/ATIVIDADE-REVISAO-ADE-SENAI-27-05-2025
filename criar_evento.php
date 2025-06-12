@@ -85,7 +85,6 @@ if (!$organizador) {
             <ul class="itens-nav-bar">
 
                 <li><a href="home.php">🏠 Início</a></li>
-                <li><a href="eventos.php">🎉 Eventos</a></li>
                 <li><a href="criar_evento.php">🛠️ Criar Evento</a></li>
                 <li><a href="meus_eventos.php">📅 Meus Eventos</a></li>
 
@@ -142,6 +141,48 @@ if (!$organizador) {
         </form>
 
     </main>
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-section">
+
+                <h4>Sobre Nós</h4>
+                <p>Somos uma plataforma dedicada a conectar pessoas a eventos incríveis e experiências únicas.</p>
+
+            </div>
+
+            <div class="footer-section">
+
+                <h4>Links Úteis</h4>
+                <ul>
+                    <li><a href="#">Início</a></li>
+                    <li><a href="#">Eventos</a></li>
+                    <li><a href="#">Contato</a></li>
+                    <li><a href="#">Ajuda</a></li>
+                </ul>
+
+            </div>
+
+            <div class="footer-section">
+
+                <h4>Contato</h4>
+                <p>Email: contato@seusite.com</p>
+                <p>Telefone: (11) 1234-5678</p>
+                <p>Endereço: Rua Exemplo, 123, Cidade</p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <p>© 2025 SeuSite. Todos os direitos reservados.</p>
+
+        </div>
+
+    </footer>
 
 </body>
 

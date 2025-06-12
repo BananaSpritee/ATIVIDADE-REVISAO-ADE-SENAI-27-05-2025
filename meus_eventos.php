@@ -53,80 +53,125 @@ if ($id_organizador) {
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Eventos Online - Meus Eventos</title>
+
 <link rel="stylesheet" href="./css/style.css" />
+
 </head>
+
 <body>
 
-<header>
+    <header>
 
-    <nav class="nav-bar">
+        <nav class="nav-bar">
 
-        <ul class="itens-nav-bar">
+            <ul class="itens-nav-bar">
 
-            <li><a href="home.php">🏠 Início</a></li>
-            <li><a href="eventos.php">🎉 Eventos</a></li>
-            <li><a href="criar_evento.php">🛠️ Criar Evento</a></li>
-            <li><a href="meus_eventos.php">📅 Meus Eventos</a></li>
+                <li><a href="home.php">🏠 Início</a></li>
+                <li><a href="criar_evento.php">🛠️ Criar Evento</a></li>
+                <li><a href="meus_eventos.php">📅 Meus Eventos</a></li>
 
-            <div class="grupo-direita">
+                <div class="grupo-direita">
 
-                <li><a href="perfil.php">👤 Perfil</a></li>
-                <li><a href="logout.php">🚪 Sair</a></li>
-
-            </div>
-
-        </ul>
-
-    </nav>
-
-</header>
-
-<main class="tela-inicial">
-
-    <h1>Meus Eventos</h1>
-
-    <?php if ($msg): ?>
-
-        <div class="msg-sucesso"><?= htmlspecialchars($msg) ?></div>
-
-    <?php endif; ?>
-
-    <?php if (!$eventos): ?>
-
-        <p>Você não tem eventos cadastrados.</p>
-
-    <?php else: ?>
-
-        <div class="eventos-grid">
-
-            <?php foreach ($eventos as $evento): ?>
-
-                <div class="card-evento">
-
-                    <h3><?= htmlspecialchars($evento['nome_evento']) ?></h3>
-                    <p><strong>Local:</strong> <?= htmlspecialchars($evento['local_evento']) ?></p>
-                    <p><strong>Início:</strong> <?= date('d/m/Y H:i', strtotime($evento['comeco_evento'])) ?></p>
-                    <p><strong>Fim:</strong> <?= $evento['fim_evento'] ? date('d/m/Y H:i', strtotime($evento['fim_evento'])) : 'Não informado' ?></p>
-                    <p><strong>Preço:</strong> R$ <?= number_format($evento['preco'], 2, ',', '.') ?></p>
-
-                    <a href="editar_evento.php?id=<?= $evento['id_evento'] ?>" class="btn-editar">Editar</a>
-                    <a href="meus_eventos.php?excluir=<?= $evento['id_evento'] ?>" 
-                       onclick="return confirm('Tem certeza que deseja excluir este evento?');" 
-                       class="btn-excluir">Excluir
-                    </a>
+                    <li><a href="perfil.php">👤 Perfil</a></li>
+                    <li><a href="logout.php">🚪 Sair</a></li>
 
                 </div>
 
-            <?php endforeach; ?>
+            </ul>
 
-        </div>
+        </nav>
 
-    <?php endif; ?>
+    </header>
 
-</main>
+        <main class="tela-inicial">
+
+            <h1>Meus Eventos</h1>
+
+            <?php if ($msg): ?>
+
+                <div class="msg-sucesso"><?= htmlspecialchars($msg) ?></div>
+
+            <?php endif; ?>
+
+            <?php if (!$eventos): ?>
+
+                <p>Você não tem eventos cadastrados.</p>
+
+            <?php else: ?>
+
+                <div class="eventos-grid">
+
+                    <?php foreach ($eventos as $evento): ?>
+
+                        <div class="card-evento">
+
+                            <h3><?= htmlspecialchars($evento['nome_evento']) ?></h3>
+                            <p><strong>Local:</strong> <?= htmlspecialchars($evento['local_evento']) ?></p>
+                            <p><strong>Início:</strong> <?= date('d/m/Y H:i', strtotime($evento['comeco_evento'])) ?></p>
+                            <p><strong>Fim:</strong> <?= $evento['fim_evento'] ? date('d/m/Y H:i', strtotime($evento['fim_evento'])) : 'Não informado' ?></p>
+                            <p><strong>Preço:</strong> R$ <?= number_format($evento['preco'], 2, ',', '.') ?></p>
+
+                            <a href="editar_evento.php?id=<?= $evento['id_evento'] ?>" class="btn-editar">Editar</a>
+                            <a href="meus_eventos.php?excluir=<?= $evento['id_evento'] ?>" 
+                               onclick="return confirm('Tem certeza que deseja excluir este evento?');" 
+                               class="btn-excluir">Excluir
+                            </a>
+
+                        </div>
+
+                    <?php endforeach; ?>
+
+                </div>
+
+            <?php endif; ?>
+
+        </main>
+
+    <footer class="footer">
+
+            <div class="footer-container">
+
+                <div class="footer-section">
+
+                    <h4>Sobre Nós</h4>
+                    <p>Somos uma plataforma dedicada a conectar pessoas a eventos incríveis e experiências únicas.</p>
+
+                </div>
+
+                <div class="footer-section">
+
+                    <h4>Links Úteis</h4>
+                    <ul>
+                        <li><a href="#">Início</a></li>
+                        <li><a href="#">Eventos</a></li>
+                        <li><a href="#">Contato</a></li>
+                        <li><a href="#">Ajuda</a></li>
+                    </ul>
+
+                </div>
+
+                <div class="footer-section">
+
+                    <h4>Contato</h4>
+                    <p>Email: contato@seusite.com</p>
+                    <p>Telefone: (11) 1234-5678</p>
+                    <p>Endereço: Rua Exemplo, 123, Cidade</p>
+
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+
+                <p>© 2025 SeuSite. Todos os direitos reservados.</p>
+
+            </div>
+
+    </footer>
 
 </body>
 

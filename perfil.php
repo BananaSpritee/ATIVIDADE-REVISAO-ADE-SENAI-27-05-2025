@@ -136,77 +136,136 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tornar_organizador'])
 
 <body>
 
-<header>
+    <header>
 
-    <nav class="nav-bar">
+        <nav class="nav-bar">
 
-        <ul class="itens-nav-bar">
+            <ul class="itens-nav-bar">
 
-            <li><a href="home.php">🏠 Início</a></li>
-            <li><a href="eventos.php">🎉 Eventos</a></li>
-            <li><a href="criar_evento.php">🛠️ Criar Evento</a></li>
-            <li><a href="meus_eventos.php">📅 Meus Eventos</a></li>
+                <li><a href="home.php">🏠 Início</a></li>
+                <li><a href="criar_evento.php">🛠️ Criar Evento</a></li>
+                <li><a href="meus_eventos.php">📅 Meus Eventos</a></li>
 
-            <div class="grupo-direita">
+                <div class="grupo-direita">
 
-                <li><a href="perfil.php">👤 Perfil</a></li>
-                <li><a href="logout.php">🚪 Sair</a></li>
+                    <li><a href="perfil.php">👤 Perfil</a></li>
+                    <li><a href="logout.php">🚪 Sair</a></li>
+
+                </div>
+
+            </ul>
+
+        </nav>
+
+    </header>
+
+        <main>
+
+            <div class="container-perfil">
+
+                <h2>Perfil do Usuário</h2>
+
+                <?php if (!empty($mensagem)): ?>
+
+                    <p class="mensagem"><?= htmlspecialchars($mensagem) ?></p>
+
+                <?php endif; ?>
+                
+                <form method="post">
+
+                    <label class="section-title">Nome atual: <?= htmlspecialchars($usuario['nome_usuario']) ?></label>
+                    <input type="text" name="novo_nome" placeholder="Novo nome">
+                    <button type="submit">Atualizar Nome</button>
+
+                </form>
+                
+                <form method="post">
+
+                    <label class="section-title">E-mail atual: <?= htmlspecialchars($usuario['email']) ?></label>
+                    <input type="email" name="novo_email" placeholder="Novo e-mail">
+                    <button type="submit">Atualizar E-mail</button>
+
+                </form>
+                
+                <form method="post">
+
+                    <label class="section-title">Atualizar Senha:</label>
+                    <input type="password" name="senha_atual" placeholder="Senha atual" required>
+                    <input type="password" name="nova_senha" placeholder="Nova senha" required>
+                    <input type="password" name="confirmar_senha" placeholder="Confirmar nova senha" required>
+                    <button type="submit">Atualizar Senha</button>
+
+                </form>
+                
+                <?php if (!$ehOrganizador): ?>
+
+                <form method="post">
+
+                    <label class="section-title">Quero me tornar organizador:</label>
+
+                    <select name="tipo_organizador" required>
+
+                        <option value="">Selecione o tipo</option>
+                        <option value="PF">Pessoa Física</option>
+                        <option value="CNPJ">Pessoa Jurídica (CNPJ)</option>
+                    </select>
+
+                    <input type="text" name="telefone" placeholder="Telefone com DDD" required>
+                    <input type="hidden" name="tornar_organizador" value="1">
+                    <button type="submit">Tornar-se Organizador</button>
+
+                </form>
+
+                <?php else: ?>
+
+                    <p style="color: #007bff;">Você já é organizador ✅</p>
+                <?php endif; ?>
+
+            </div>
+                
+        </main>
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-section">
+
+                <h4>Sobre Nós</h4>
+                <p>Somos uma plataforma dedicada a conectar pessoas a eventos incríveis e experiências únicas.</p>
 
             </div>
 
-        </ul>
+            <div class="footer-section">
 
-    </nav>
+                <h4>Links Úteis</h4>
+                <ul>
+                    <li><a href="#">Início</a></li>
+                    <li><a href="#">Eventos</a></li>
+                    <li><a href="#">Contato</a></li>
+                    <li><a href="#">Ajuda</a></li>
+                </ul>
 
-</header>
+            </div>
 
-<main>
+            <div class="footer-section">
 
-    <div class="container-perfil">
-        <h2>Perfil do Usuário</h2>
-    
-        <?php if (!empty($mensagem)): ?>
-            <p class="mensagem"><?= htmlspecialchars($mensagem) ?></p>
-        <?php endif; ?>
-    
-        <form method="post">
-            <label class="section-title">Nome atual: <?= htmlspecialchars($usuario['nome_usuario']) ?></label>
-            <input type="text" name="novo_nome" placeholder="Novo nome">
-            <button type="submit">Atualizar Nome</button>
-        </form>
-    
-        <form method="post">
-            <label class="section-title">E-mail atual: <?= htmlspecialchars($usuario['email']) ?></label>
-            <input type="email" name="novo_email" placeholder="Novo e-mail">
-            <button type="submit">Atualizar E-mail</button>
-        </form>
-    
-        <form method="post">
-            <label class="section-title">Atualizar Senha:</label>
-            <input type="password" name="senha_atual" placeholder="Senha atual" required>
-            <input type="password" name="nova_senha" placeholder="Nova senha" required>
-            <input type="password" name="confirmar_senha" placeholder="Confirmar nova senha" required>
-            <button type="submit">Atualizar Senha</button>
-        </form>
-    
-        <?php if (!$ehOrganizador): ?>
-        <form method="post">
-            <label class="section-title">Quero me tornar organizador:</label>
-            <select name="tipo_organizador" required>
-                <option value="">Selecione o tipo</option>
-                <option value="PF">Pessoa Física</option>
-                <option value="CNPJ">Pessoa Jurídica (CNPJ)</option>
-            </select>
-            <input type="text" name="telefone" placeholder="Telefone com DDD" required>
-            <input type="hidden" name="tornar_organizador" value="1">
-            <button type="submit">Tornar-se Organizador</button>
-        </form>
-        <?php else: ?>
-            <p style="color: #007bff;">Você já é organizador ✅</p>
-        <?php endif; ?>
-    </div>
+                <h4>Contato</h4>
+                <p>Email: contato@seusite.com</p>
+                <p>Telefone: (11) 1234-5678</p>
+                <p>Endereço: Rua Exemplo, 123, Cidade</p>
 
-</main>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <p>© 2025 SeuSite. Todos os direitos reservados.</p>
+
+        </div>
+
+    </footer>
 
 </body>
 

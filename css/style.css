@@ -3,6 +3,15 @@
 /* ========================================= */
 
 /* FONTES E RESET */
+
+html {
+    height: 100%;
+}
+
+main {
+    min-height: calc(100vh - 200px); /* ajusta conforme altura do seu header+footer */
+}
+
 body {
     height: 100%;
     background-color: #f0f0f0;
@@ -10,6 +19,7 @@ body {
     padding: 0;
     font-family: 'Poppins', sans-serif;
 }
+
 
 /* NAVBAR */
 .nav-bar {
@@ -66,6 +76,7 @@ header a {
 }
 
 /* INPUTS E BOTÕES GERAIS */
+
 input {
     width: 100%;
     padding: 10px;
@@ -188,6 +199,7 @@ button:hover {
     text-align: center;
 }
 
+/* Eventos recentes */
 .eventos-grid {
     display: flex;
     flex-wrap: wrap;
@@ -235,6 +247,64 @@ button:hover {
     color: #007bff;
     text-decoration: none;
     font-weight: bold;
+}
+
+/* ========================================= */
+/* BARRA DE PESQUISA E BOTÕES NA HOME.PHP   */
+/* ========================================= */
+
+.tela-inicial form {
+    max-width: 600px; /* Aumentado para barra maior */
+    margin: 2rem auto 3rem auto;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.tela-inicial form input[type="text"] {
+    flex-grow: 1;
+    max-width: none;
+    min-width: 0;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.tela-inicial form input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.tela-inicial form button[type="submit"],
+.tela-inicial form a button[type="button"] {
+    width: 120px; /* Mesma largura para ambos */
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.tela-inicial form button[type="submit"] {
+    background-color: #007bff;
+}
+
+.tela-inicial form button[type="submit"]:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.tela-inicial form a button[type="button"] {
+    background-color: #6c757d;
+}
+
+.tela-inicial form a button[type="button"]:hover {
+    background-color: #5a6268;
 }
 
 /* ========================================= */
@@ -396,4 +466,104 @@ button:hover {
 
 .link-cadastro a:hover {
     color: #0056b3;
+}
+
+/* ========================================= */
+/* MEDIA QUERY PARA RESPONSIVIDADE           */
+/* ========================================= */
+
+@media (max-width: 600px) {
+    .tela-inicial form {
+        flex-direction: column;
+        max-width: 100%;
+        margin: 1rem auto 2rem auto;
+    }
+    
+    .tela-inicial form input[type="text"],
+    .tela-inicial form button {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .tela-inicial form a button {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 10px;
+    }
+}
+
+/* ========================================= */
+/* FOOTER                                     */
+/* ========================================= */
+
+.footer {
+    margin-top: 3rem;
+    background-color: #222;
+    color: #eee;
+    padding: 2.5rem 1.25rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    box-sizing: border-box;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    justify-content: space-between;
+}
+
+.footer-section {
+    flex: 1 1 250px;
+    min-width: 200px;
+}
+
+.footer-section h4 {
+    margin-bottom: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.footer-section p,
+.footer-section ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #007bff;
+}
+
+.footer-bottom {
+    border-top: 1px solid #444;
+    margin-top: 1.875rem;
+    padding-top: 0.9375rem;
+    text-align: center;
+    color: #999;
+    font-size: 0.8rem;
+}
+
+/* RESPONSIVIDADE DO FOOTER */
+@media (max-width: 600px) {
+    .footer-container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .footer-section {
+        min-width: 100%;
+    }
 }
